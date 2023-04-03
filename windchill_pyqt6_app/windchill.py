@@ -1,27 +1,36 @@
 import sys
+import random
 
+import PyQt6.QtCore as QtCore
 from PyQt6.QtCore import QSize, Qt
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton
+from PyQt6.QtWidgets import ( QWidget, QApplication, QMainWindow, QLabel,
+                             QPushButton, QVBoxLayout)
 
 
 # Subclass QMainWindow to customize your application's main window
-class MainWindow(QMainWindow):
+class MyWidget(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("My App")
+        self.hello = ["Hallo Welt", "Hei maailma", "Hola Mundo", "Привет мир"]
 
-        button = QPushButton("Press Me!")
+        self.button = QPushButton("Click me!")
+        self.text = QLabel("Hello World")
 
-        self.setFixedSize(QSize(400, 300))
+        self.layout = QVBoxLayout(self)
+        self.layout.addWidget(self.text)
+        self.layout.addWidget(self.button)
 
-        # Set the central widget of the Window.
-        self.setCentralWidget(button)
+        self.button.clicked.connect(self.magic)
 
+    def magic(self):
+        self.text.setText(random.choice(self.hello))
 
-app = QApplication(sys.argv)
+if __name__ == "__main__":
+    app = QApplication([])
 
-window = MainWindow()
-window.show()
+    widget = MyWidget()
+    widget.resize(800, 600)
+    widget.show()
 
-app.exec()
+    sys.exit(app.exec())
