@@ -1,10 +1,11 @@
 import sys
 from PyQt6.QtWidgets import (
     QMainWindow, QApplication, QVBoxLayout, QHBoxLayout,
-    QLabel, QCheckBox, QComboBox, QListWidget, QLineEdit,
-    QSpinBox, QDoubleSpinBox, QSlider, QWidget,
+    QLabel, QCheckBox, QComboBox, QListWidget, QTextEdit,
+    QSpinBox, QDoubleSpinBox, QSlider, QWidget, QPushButton,
 )
 from PyQt6.QtCore import Qt
+import controller
 
 class MainWindow(QMainWindow):
 
@@ -33,15 +34,15 @@ class MainWindow(QMainWindow):
         ############################
         # Temperature inputs
         temperature_label = QLabel("Temperature:")
-        temperature_spinbox = QSpinBox()
-        temperature_spinbox.setMinimum(-100)
-        temperature_spinbox.setMaximum(40)
+        self.temperature_spinbox = QSpinBox()
+        self.temperature_spinbox.setMinimum(-100)
+        self.temperature_spinbox.setMaximum(40)
 
         # Wind Speed inputs
         wind_label = QLabel("Wind Speed:")
-        wind_spinbox = QSpinBox()
-        wind_spinbox.setMinimum(-100)
-        wind_spinbox.setMaximum(40)
+        self.wind_spinbox = QSpinBox()
+        self.wind_spinbox.setMinimum(0)
+        self.wind_spinbox.setMaximum(40)
 
         # Results Pane Widgets
         results_title = QLabel("Results")
@@ -50,9 +51,13 @@ class MainWindow(QMainWindow):
         h2_font = results_title.font()
         h2_font.setPointSize(26)
         results_title.setFont(h2_font)
-        results_window = QLineEdit("Add instructions here")
-        results_window.setMinimumHeight(100)
+        self.results_window = QTextEdit("Add instructions here")
+        self.results_window.setMinimumHeight(100)
         
+        self.calculate_button = QPushButton("Get Windspeed")
+        # add a calculate function
+        self.calculate_button.clicked.connect(self.calculate_windchill)
+
         # Align the label
         title_label.setAlignment(Qt.AlignmentFlag.AlignHCenter | 
                                  Qt.AlignmentFlag.AlignTop)
@@ -60,13 +65,14 @@ class MainWindow(QMainWindow):
         # Add our left pane widgets
         left_pane.addWidget(title_label)
         left_pane.addWidget(temperature_label)
-        left_pane.addWidget(temperature_spinbox)
+        left_pane.addWidget(self.temperature_spinbox)
         left_pane.addWidget(wind_label)
-        left_pane.addWidget(wind_spinbox)
+        left_pane.addWidget(self.wind_spinbox)
+        left_pane.addWidget(self.calculate_button)
 
         # Add our right pane widgets
         right_pane.addWidget(results_title)
-        right_pane.addWidget(results_window)
+        right_pane.addWidget(self.results_window)
         
         # Add the two panes to the layout
         main_layout.addLayout(left_pane)
@@ -76,6 +82,20 @@ class MainWindow(QMainWindow):
         gui = QWidget()
         gui.setLayout(main_layout)
         self.setCentralWidget(gui)
+    
+    def calculate_windchill(self):
+        """Calculate windchill"""
+        # Get temp
+        temperature = self.temperature_spinbox.value()
+        
+
+        # Get windspeed
+        windspeed = self.wind_spinbox.value()
+        
+        # Get windchill
+        results = controller.get_windchill(temperature, windspeed)
+        # Display results
+        self.results_window.setText(results)
 
 
 if __name__ == "__main__":
