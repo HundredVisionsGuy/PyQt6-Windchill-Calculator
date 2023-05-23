@@ -13,6 +13,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
 
         self.setWindowTitle("Windchill Calculator App")
+        self.resize(600, 300)
 
         # Create our Layouts
         main_layout = QHBoxLayout()
@@ -51,6 +52,8 @@ class MainWindow(QMainWindow):
         h2_font = results_title.font()
         h2_font.setPointSize(26)
         results_title.setFont(h2_font)
+
+        # a window to display our results
         self.results_window = QTextEdit("Add instructions here")
         self.results_window.setMinimumHeight(100)
         
@@ -85,15 +88,19 @@ class MainWindow(QMainWindow):
     
     def calculate_windchill(self):
         """Calculate windchill"""
+        # resize the window
+        if self.temperature_spinbox.width() > 300:
+            self.resize(700, 200)
+
         # Get temp
         temperature = self.temperature_spinbox.value()
-        
 
         # Get windspeed
         windspeed = self.wind_spinbox.value()
         
         # Get windchill
         results = controller.get_windchill(temperature, windspeed)
+
         # Display results
         self.results_window.setText(results)
 
