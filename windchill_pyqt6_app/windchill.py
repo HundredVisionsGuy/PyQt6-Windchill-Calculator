@@ -1,11 +1,11 @@
 import sys
 from PyQt6.QtWidgets import (
     QMainWindow, QApplication, QVBoxLayout, QHBoxLayout,
-    QLabel, QCheckBox, QComboBox, QListWidget, QTextEdit,
-    QSpinBox, QDoubleSpinBox, QSlider, QWidget, QPushButton,
+    QLabel, QTextEdit, QSpinBox, QWidget, QPushButton,
 )
 from PyQt6.QtCore import Qt
 import controller
+
 
 class MainWindow(QMainWindow):
 
@@ -47,8 +47,8 @@ class MainWindow(QMainWindow):
 
         # Results Pane Widgets
         results_title = QLabel("Results")
-        results_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | 
-                                 Qt.AlignmentFlag.AlignTop)
+        results_title.setAlignment(Qt.AlignmentFlag.AlignHCenter |
+                                   Qt.AlignmentFlag.AlignTop)
         h2_font = results_title.font()
         h2_font.setPointSize(26)
         results_title.setFont(h2_font)
@@ -56,13 +56,13 @@ class MainWindow(QMainWindow):
         # a window to display our results
         self.results_window = QTextEdit("Add instructions here")
         self.results_window.setMinimumHeight(100)
-        
+
         self.calculate_button = QPushButton("Get Windspeed")
         # add a calculate function
         self.calculate_button.clicked.connect(self.calculate_windchill)
 
         # Align the label
-        title_label.setAlignment(Qt.AlignmentFlag.AlignHCenter | 
+        title_label.setAlignment(Qt.AlignmentFlag.AlignHCenter |
                                  Qt.AlignmentFlag.AlignTop)
 
         # Add our left pane widgets
@@ -76,7 +76,7 @@ class MainWindow(QMainWindow):
         # Add our right pane widgets
         right_pane.addWidget(results_title)
         right_pane.addWidget(self.results_window)
-        
+
         # Add the two panes to the layout
         main_layout.addLayout(left_pane)
         main_layout.addLayout(right_pane)
@@ -85,7 +85,7 @@ class MainWindow(QMainWindow):
         gui = QWidget()
         gui.setLayout(main_layout)
         self.setCentralWidget(gui)
-    
+
     def calculate_windchill(self):
         """Calculate windchill"""
         # resize the window
@@ -97,7 +97,7 @@ class MainWindow(QMainWindow):
 
         # Get windspeed
         windspeed = self.wind_spinbox.value()
-        
+
         # Get windchill
         results = controller.get_windchill(temperature, windspeed)
 

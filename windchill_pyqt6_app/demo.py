@@ -1,11 +1,11 @@
 import sys
 from PyQt6.QtWidgets import (
     QMainWindow, QApplication, QVBoxLayout, QHBoxLayout,
-    QLabel, QCheckBox, QComboBox, QListWidget, QLineEdit,
-    QLineEdit, QSpinBox, QTextEdit, QSlider, QWidget,
-    QPushButton
+    QLabel, QCheckBox, QComboBox, QLineEdit,
+    QTextEdit, QWidget, QPushButton
 )
 from PyQt6.QtCore import Qt
+
 
 class MainWindow(QMainWindow):
 
@@ -24,9 +24,9 @@ class MainWindow(QMainWindow):
         title_font = title_label.font()
         title_font.setPointSize(30)
         title_label.setFont(title_font)
-        
+
         # Align the label
-        title_label.setAlignment(Qt.AlignmentFlag.AlignHCenter | 
+        title_label.setAlignment(Qt.AlignmentFlag.AlignHCenter |
                                  Qt.AlignmentFlag.AlignTop)
 
         # Add label to main_layout
@@ -53,16 +53,17 @@ class MainWindow(QMainWindow):
         check_box_row.addWidget(this_label)
         check_box_row.addWidget(self.that_checkbox)
         check_box_row.addWidget(that_label)
-        
+
         # Add row to vertical layout
         main_layout.addLayout(check_box_row)
 
         # Combo boxes
         self.option_box = QComboBox()
-        self.option_box.addItems(["Rancho Cucamonga, California", 
-                                  "Boring, Oregon", "Batman, Turkey", 
-                                  "Embarrass, Minnesota", "Toad Suck, Arkansas"])
-        
+        self.option_box.addItems(["Rancho Cucamonga, California",
+                                  "Boring, Oregon", "Batman, Turkey",
+                                  "Embarrass, Minnesota",
+                                  "Toad Suck, Arkansas"])
+
         main_layout.addWidget(self.option_box)
 
         # Button to get all the things
@@ -97,6 +98,7 @@ class MainWindow(QMainWindow):
         city = self.option_box.currentText()
         output += f"<p><b>Combo Box selected</b> = {city}</p>"
         self.results_window.setText(output)
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
